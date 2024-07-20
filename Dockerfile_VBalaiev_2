@@ -1,0 +1,17 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 openjdk-8-jdk
+
+RUN echo "deb https://clemlabs.s3.eu-west-3.amazonaws.com/ubuntu22/ambari-release/2.7.9.0.0-110/AMBARI AMBARI main" > /etc/apt/sources.list.d/ambari.list
+
+RUN apt update --allow-insecure-repositories
+
+RUN apt install ambari-server -y --allow-unauthenticated
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+RUN ambari-server setup --silent --java-home $JAVA_HOME
+
+ENTRYPOINT ["ambari-server", "start"]
+
+EXPOSE 8080
