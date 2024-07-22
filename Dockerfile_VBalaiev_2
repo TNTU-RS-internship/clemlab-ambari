@@ -12,6 +12,6 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 RUN ambari-server setup --silent --java-home $JAVA_HOME
 
-ENTRYPOINT ["ambari-server", "start"]
+ENTRYPOINT ["bash", "-c", "ambari-server start && tail -f /var/log/ambari-server/ambari-server.log"]
 
 EXPOSE 8080
